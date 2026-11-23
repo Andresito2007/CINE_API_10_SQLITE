@@ -1,0 +1,251 @@
+{
+  "info": {
+    "_postman_id": "431640b0-1a7e-473a-82ab-c1d77d5072ab",
+    "name": "COLECCION_CINEAPI_JWT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50281284",
+    "_collection_link": "https://go.postman.co/collection/50281284-431640b0-1a7e-473a-82ab-c1d77d5072ab?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "PETICION-GET-LISTAR-TICKEST",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5266/api/tickets",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "tickets"
+          ]
+        },
+        "description": "CON ESTA PETICION PODEMOS VER EL LISTADO DE TICKES QUE TENEMOS EN CINE_API"
+      },
+      "response": []
+    },
+    {
+      "name": "GET-TICKETS-ID-ESPECIFICO",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5266/api/tickets/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "tickets",
+            "2"
+          ]
+        },
+        "description": "CON ESTA PETI TIPO GET PODEMOS VER EL TICKET INDIVIDUAL CON EL ID EN ESPECIFICO"
+      },
+      "response": []
+    },
+    {
+      "name": "CREAR-TICKET-POST",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "\r\n{\r\n  \"clienteId\": 3,\r\n  \"peliculaId\": 2,\r\n  \"fechaFuncion\": \"2026-10-10T18:00:00\",\r\n  \"sala\": \"Sala 9\",\r\n  \"asiento\": \"G1\",\r\n  \"precio\": 35.90\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5266/api/tickets",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "tickets"
+          ]
+        },
+        "description": "CON ESTA PETICION PODEMOS CREAR UN TICKET PARA CINE API"
+      },
+      "response": []
+    },
+    {
+      "name": "ACTUALIZAR-TICKET-PUT",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "\r\n{\r\n  \"clienteId\": 3,\r\n  \"peliculaId\": 2,\r\n  \"fechaFuncion\": \"2026-10-10T18:00:00\",\r\n  \"sala\": \"Sala 9\",\r\n  \"asiento\": \"G1\",\r\n  \"precio\": 45.90\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5266/api/tickets/4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "tickets",
+            "4"
+          ]
+        },
+        "description": "CON ESTA PETI PODEMOS ACTUALIZAR EL TICKET DESEADO POR ID"
+      },
+      "response": []
+    },
+    {
+      "name": "ELIMINAR-TICKET-ESPECIFICO",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5266/api/tickets/4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "tickets",
+            "4"
+          ]
+        },
+        "description": "CON ESTA PETI PODEMOS ELIMINAR UN TICKET CON ID EN ESPECIFICO"
+      },
+      "response": []
+    },
+    {
+      "name": "LOGUEARTE_CINEAPI",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set(\"token\", pm.response.json().token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"correo\": \"andrecito@gmail.com\",\r\n  \"clave\": \"andrecito123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5266/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "YO_CINEAPI",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5266/api/auth/yo",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "auth",
+            "yo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "REGISTRARSE_CINEAPI",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"correo\": \"andrecito@gmail.com\",\r\n  \"clave\": \"andrecito123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5266/api/auth/registro",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5266",
+          "path": [
+            "api",
+            "auth",
+            "registro"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

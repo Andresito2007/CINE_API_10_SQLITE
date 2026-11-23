@@ -1,0 +1,66 @@
+using API_CINE.Dtos;
+using API_CINE.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
+
+namespace API_CINE.Middleware;
+
+// (GUARDIAN) TODA EXCEPCION QUE SE LANCE LLEGA AQUI
+
+public class ManejadorExcepciones : IExceptionHandler{
+    // ILOGGER PA ESCRIBIR MENSAJES EN CONSOLA Y SE INYECTA SOLO POR .NET
+    private ILogger<ManejadorExcepciones> _logger;
+
+    public ManejadorExcepciones(ILogger<ManejadorExcepciones> logger)
+    {
+        _logger = logger;
+    }
+    // ASYNC PARA REALIZAR OPERACIONES ASINCRONAZ , ASI PUEDEN ATENDER OTRAS PETIS SIN AFECTAR EL HILO
+    public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)
+    {
+        int estado;
+        string error;
+        string mensaje = exception.Message;
+
+        switch (exception)
+        {
+            case NoEncontradoException:
+                estado = StatusCodes.Status404NotFound; // status code la clase que tiene los estados http
+                error = "SOLICITUD NO ENCONTRADA";
+                break;
+            case ReglaNegocioException:
+                estado = StatusCodes.Status400BadRequest;
+                error = "SOLICITUD INVALIDA";
+                break;
+            case ConflictoException:
+                estado = StatusCodes.Status409Conflict;
+                error = "CONFLICTO ENCONTRADO";
+                break;
+
+            case CredencialesInvalidasException:
+                estado = StatusCodes.Status401Unauthorized;   // NO AUTENTICADO
+                error = "CREDENCIALES INVALIDAS ";
+                break;
+
+            default:
+                // POR si HAY UN ERROR QUE NO ESPERABAMOS , LO GUARDAMOS EN EL LOG PA VERLO EN EL VS CODE
+                _logger.LogError(exception, "OCURRIO UN BUG");
+                estado = StatusCodes.Status500InternalServerError;
+                error = "ERROR INTERNO DE CINE API";
+                mensaje = "OCURRIO UN ERROR , INTENTALO MAS TARDE";
+                break;
+        }
+
+        // ARMAMOS LA RESPUESTA CON NUESTRO DTO DE SALIDA
+        ErrorResponse respuesta = new ErrorResponse
+        {
+            Estado = estado,
+            Error = error,
+            Mensaje = mensaje,
+            Ruta = context.Request.Path // SOLO LA PETICION CON PATH
+        };
+        context.Response.StatusCode = estado;
+        // esperamos la operacion con await
+        await context.Response.WriteAsJsonAsync(respuesta, cancellationToken);
+        return true;
+    }
+}
